@@ -1,0 +1,69 @@
+id = "jobflow-valley"
+seed_dir = "seed"
+target_paths = [
+  "src/jobflow/engine.py",
+  "src/jobflow/model.py",
+]
+erasable_paths = ["src/jobflow/engine.py"]
+metric_paths = ["src/jobflow"]
+immutable_paths = ["CONTRACT.md", "tests"]
+
+[[baseline_checks]]
+name = "baseline-public-tests"
+command = ["{python}", "-B", "-m", "unittest", "discover", "-s", "tests", "-v"]
+timeout_seconds = 60
+
+[[steps]]
+id = "cancellation"
+prompt_file = "steps/01_cancellation.md"
+
+[[steps.hidden_checks]]
+name = "hidden-cancellation"
+command = ["{python}", "-B", "{task_dir}/verifiers/verify_01_cancellation.py", "{workspace}"]
+timeout_seconds = 60
+
+[[steps]]
+id = "restart"
+prompt_file = "steps/02_restart.md"
+
+[[steps.hidden_checks]]
+name = "hidden-restart"
+command = ["{python}", "-B", "{task_dir}/verifiers/verify_02_restart.py", "{workspace}"]
+timeout_seconds = 60
+
+[[steps]]
+id = "exactly_once_callbacks"
+prompt_file = "steps/03_callbacks.md"
+
+[[steps.hidden_checks]]
+name = "hidden-exactly-once-callbacks"
+command = ["{python}", "-B", "{task_dir}/verifiers/verify_03_callbacks.py", "{workspace}"]
+timeout_seconds = 60
+
+[[steps]]
+id = "snapshot_restore"
+prompt_file = "steps/04_snapshot_restore.md"
+
+[[steps.hidden_checks]]
+name = "hidden-snapshot-restore"
+command = ["{python}", "-B", "{task_dir}/verifiers/verify_04_snapshot_restore.py", "{workspace}"]
+timeout_seconds = 60
+
+[[steps]]
+id = "explainable_history"
+prompt_file = "steps/05_explainable_history.md"
+
+[[steps.hidden_checks]]
+name = "hidden-explainable-history"
+command = ["{python}", "-B", "{task_dir}/verifiers/verify_05_history.py", "{workspace}"]
+timeout_seconds = 60
+
+[[debt_markers]]
+name = "lifecycle_boolean_keys"
+pattern = '''["'](?:is|has|was|should)_[a-z_]+["']'''
+paths = ["src/jobflow/engine.py"]
+
+[[debt_markers]]
+name = "boolean_branch_conjunctions"
+pattern = '''(?:and|or)\s+(?:not\s+)?(?:record|job)\[["'](?:is|has|was|should)_[a-z_]+["']\]'''
+paths = ["src/jobflow/engine.py"]

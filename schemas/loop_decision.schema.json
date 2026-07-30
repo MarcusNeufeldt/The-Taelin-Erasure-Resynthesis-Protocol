@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["completed", "blocked"]
+    },
+    "should_compact": {
+      "type": "boolean"
+    },
+    "selected_paths": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "contract": {
+      "type": "string"
+    },
+    "rationale": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "status",
+    "should_compact",
+    "selected_paths",
+    "contract",
+    "rationale"
+  ],
+  "additionalProperties": false
+}

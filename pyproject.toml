@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "erasure-benchmark"
-version = "0.1.0"
-description = "A controlled Codex benchmark for visible refactoring versus implementation erasure and resynthesis."
+version = "0.2.0"
+description = "TERP-Core and TERP-Loop benchmarks for implementation erasure, resynthesis, and long-horizon agent maintenance."
 requires-python = ">=3.11"
 dependencies = []
 

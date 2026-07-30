@@ -15,6 +15,7 @@ IGNORED_NAMES = {
     ".pytest_cache",
     ".ruff_cache",
     "__pycache__",
+    "loop-runs",
     "runs",
 }
 

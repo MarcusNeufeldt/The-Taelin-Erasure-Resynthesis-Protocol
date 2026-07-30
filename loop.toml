@@ -1,0 +1,62 @@
+[loop]
+name = "taelin-erasure-resynthesis-protocol-loop"
+seed = 20260730
+repetitions = 3
+results_dir = "loop-runs"
+task = "tasks/jobflow_valley/trajectory.toml"
+controllers = [
+  "ordinary_maintenance",
+  "visible_rewrite",
+  "adversarial_review",
+  "self_erasure",
+]
+calls_per_step = 2
+contract_max_chars = 12000
+stop_on_failure = true
+
+[agent]
+command = "codex"
+model = "gpt-5.6-sol"
+reasoning_effort = "xhigh"
+sandbox = "danger-full-access"
+approval_policy = "never"
+timeout_seconds = 1800
+check_timeout_seconds = 120
+ignore_user_config = true
+ignore_rules = true
+ephemeral = true
+
+[controllers.ordinary_maintenance]
+type = "candidate_pool"
+candidate_count = 2
+instruction = """
+Implement the requested maintenance change in the existing design. Preserve
+working behavior and make the smallest coherent change that passes the stated
+requirements.
+"""
+
+[controllers.visible_rewrite]
+type = "candidate_pool"
+candidate_count = 2
+instruction = """
+Re-derive the design from its behavioral contract and the accumulated
+maintenance requirements. You may replace the target implementation wholesale;
+do not treat its current architecture as authoritative.
+"""
+
+[controllers.adversarial_review]
+type = "reviewer_implementer"
+candidate_count = 1
+instruction = """
+Use the adversarial review to identify the local design trap, then implement the
+requested behavior while eliminating the failure mode the reviewer found.
+"""
+
+[controllers.self_erasure]
+type = "self_erasure"
+candidate_count = 1
+instruction = """
+First decide whether implementation erasure is justified and extract only the
+behavioral contract. Then rebuild from the contract without access to erased
+implementation bodies. Erasure is secondary to trajectory success.
+"""
