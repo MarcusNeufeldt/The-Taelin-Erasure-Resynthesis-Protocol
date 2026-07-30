@@ -1,0 +1,44 @@
+[benchmark]
+name = "erasure-pilot"
+seed = 20260730
+repetitions = 3
+results_dir = "runs"
+tasks = ["tasks/parser_backtracker/task.toml"]
+arms = ["visible_refactor", "visible_rewrite", "hidden_resynthesis"]
+
+[agent]
+command = "codex"
+model = "gpt-5.6-sol"
+reasoning_effort = "xhigh"
+sandbox = "danger-full-access"
+approval_policy = "never"
+timeout_seconds = 1800
+check_timeout_seconds = 120
+ignore_user_config = true
+ignore_rules = true
+ephemeral = true
+
+[arms.visible_refactor]
+implementation = "visible"
+instruction = """
+Improve the existing implementation in place. Refactor aggressively where that
+makes the code simpler, but preserve every specified behavior.
+"""
+
+[arms.visible_rewrite]
+implementation = "visible"
+instruction = """
+Re-derive the implementation from the contract, callers, and tests. Replace the
+target implementation completely rather than incrementally patching it. Treat
+anything supplied at the target path only as interface information; do not use
+its architecture as authoritative.
+"""
+
+[arms.hidden_resynthesis]
+implementation = "stub"
+instruction = """
+Re-derive the implementation from the contract, callers, and tests. Replace the
+target implementation completely rather than incrementally patching it. Treat
+anything supplied at the target path only as interface information; do not use
+its architecture as authoritative.
+"""

@@ -1,0 +1,26 @@
+id = "parser_backtracker"
+seed_dir = "seed"
+stub_dir = "stub"
+prompt_file = "PROMPT.md"
+target_paths = ["src/route_lang/parser.py"]
+metric_paths = ["src/route_lang"]
+immutable_paths = ["CONTRACT.md", "tests"]
+
+[[public_checks]]
+name = "public-unittests"
+command = ["{python}", "-B", "-m", "unittest", "discover", "-s", "tests", "-v"]
+timeout_seconds = 60
+
+[[hidden_checks]]
+name = "hidden-parser-behavior"
+command = ["{python}", "-B", "{task_dir}/verify_hidden.py", "{workspace}"]
+timeout_seconds = 60
+
+[[challenges]]
+id = "add_unary_not"
+prompt_file = "challenges/add_unary_not.md"
+
+[[challenges.checks]]
+name = "hidden-unary-not"
+command = ["{python}", "-B", "{task_dir}/challenges/verify_add_unary_not.py", "{workspace}"]
+timeout_seconds = 60

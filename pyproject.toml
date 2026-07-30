@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "erasure-benchmark"
+version = "0.1.0"
+description = "A controlled Codex benchmark for visible refactoring versus implementation erasure and resynthesis."
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+erasure-bench = "erasure_bench.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["erasure_bench*"]
