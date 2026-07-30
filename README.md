@@ -97,6 +97,30 @@ maintenance tasks before the first unrecoverable regression. Reports also show:
 Behavioral verification remains authoritative. Static cleanliness metrics are
 secondary.
 
+### First TERP-Loop smoke
+
+The first calibrated, source-traceable self-erasure episode completed four of
+five maintenance tasks before its first unrecoverable regression. The selector
+erased once (on cancellation), then declined erasure for the next four tasks.
+The final candidate implemented explainable history but broke the earlier
+snapshot-version contract, so the harness rejected it and rolled back.
+
+| Endpoint | Result |
+| --- | ---: |
+| Maintenance horizon | 4/5 |
+| Valid selector decisions | 5/5 |
+| Erasures selected | 1/5 |
+| Leakage / immutable violations | 0 / 0 |
+| Agent calls | 10 |
+| Input + output tokens | 4,415,991 |
+| Agent time | 39.4 min |
+| Tracked flag-debt survival | 0/169 |
+| Accepted lines | 609 → 1,342 |
+| Accepted complexity proxy | 149 → 294 |
+
+This is an end-to-end harness smoke, not evidence that one controller beats
+another. See the [full smoke note](results/TERP_LOOP_SMOKE_20260730.md).
+
 ## Execution and isolation
 
 All benchmark agents are launched through the locally authenticated Codex CLI:
